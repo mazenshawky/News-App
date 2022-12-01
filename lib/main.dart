@@ -1,4 +1,3 @@
-import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/layout/cubit/cubit.dart';
@@ -10,11 +9,9 @@ import 'package:news_app/shared/network/local/cache_helper.dart';
 import 'package:news_app/shared/network/remote/dio_helper.dart';
 import 'package:news_app/shared/styles/themes.dart';
 
-
-void main()
-{
+void main() {
   BlocOverrides.runZoned(
-        () async {
+    () async {
       WidgetsFlutterBinding.ensureInitialized();
 
       DioHelper.init();
@@ -31,28 +28,28 @@ void main()
   );
 }
 
-class MyApp extends StatelessWidget
-{
+class MyApp extends StatelessWidget {
   final bool? isDark;
   final Widget? startWidget;
 
-  MyApp({Key? key,
+  MyApp({
+    Key? key,
     this.isDark,
     this.startWidget,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context)
-  {
+  Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
           create: (context) => NewsCubit()..getBusiness(),
         ),
         BlocProvider(
-          create: (context) => AppCubit()..changeAppMode(
-            fromShared: isDark,
-          ),
+          create: (context) => AppCubit()
+            ..changeAppMode(
+              fromShared: isDark,
+            ),
         ),
       ],
       child: BlocConsumer<AppCubit, AppStates>(
@@ -62,8 +59,8 @@ class MyApp extends StatelessWidget
             debugShowCheckedModeBanner: false,
             theme: lightTheme,
             darkTheme: darkTheme,
-            //themeMode: AppCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
-            themeMode: ThemeMode.light,
+            themeMode:
+                AppCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
             home: startWidget,
           );
         },
